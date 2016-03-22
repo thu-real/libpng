@@ -1,0 +1,18 @@
+# all build bin folders
+build
+bin
+
+# Unnecessary visual studio project file
+Debug
+Release
+Debug Library
+Release Library
+*.opensdf
+*.sdf
+*.suo
+*.user
+
+# all . files
+.*
+!/.gitignore
+
