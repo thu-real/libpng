@@ -43,7 +43,9 @@ set(PNGLIB_NAME libpng${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_RELEASE})
 
 # needed packages
-find_package(ZLIB REQUIRED)
+# find_package(ZLIB REQUIRED)
+set(ZLIB_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/lib/zlib)
+set(ZLIB_LIBRARY ${CMAKE_BINARY_DIR}/src/lib/zlib/libz.so)
 include_directories(${ZLIB_INCLUDE_DIR})
 
 if(NOT WIN32)
