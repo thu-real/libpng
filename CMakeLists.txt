@@ -42,8 +42,23 @@ set(PNGLIB_RELEASE 22)
 set(PNGLIB_NAME libpng${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_RELEASE})
 
+# COMMAND LINE OPTIONS
+option(PNG_SHARED "Build shared lib" ON)
+option(PNG_STATIC "Build static lib" ON)
+option(PNG_TESTS  "Build libpng tests" ON)
+
 # needed packages
-find_package(ZLIB REQUIRED)
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../zlib/CMakeLists.txt)
+  message(STATUS "Found zlib directory")
+  set(PNG_SHARED OFF CACHE BOOL "Build libpng shared library" FORCE)
+  set(ZLIB_SHARED OFF CACHE BOOL "Build zlib shared library" FORCE)
+  set(ZLIB_EXAMPLE OFF CACHE BOOL "Build zlib example" FORCE)
+  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../zlib ${CMAKE_CURRENT_BINARY_DIR}/zlib)
+  set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/zlib)
+  set(ZLIB_LIBRARY zlibstatic)
+else ()
+  find_package(ZLIB REQUIRED)
+endif ()
 include_directories(${ZLIB_INCLUDE_DIR})
 
 if(NOT WIN32)
@@ -58,11 +73,6 @@ else()
   # not needed on windows
   set(M_LIBRARY "")
 endif()
-
-# COMMAND LINE OPTIONS
-option(PNG_SHARED "Build shared lib" ON)
-option(PNG_STATIC "Build static lib" ON)
-option(PNG_TESTS  "Build libpng tests" ON)
 
 # Many more configuration options could be added here
 option(PNG_FRAMEWORK "Build OS X framework" OFF)
@@ -789,9 +799,9 @@ endif()
 
 # On versions of CMake that support it, create an export file CMake
 # users can include() to import our targets
-if(PNG_EXPORT_RULE AND NOT SKIP_INSTALL_EXPORT AND NOT SKIP_INSTALL_ALL )
-  install(EXPORT libpng DESTINATION lib/libpng FILE lib${PNG_LIB_NAME}.cmake)
-endif()
+#if(PNG_EXPORT_RULE AND NOT SKIP_INSTALL_EXPORT AND NOT SKIP_INSTALL_ALL )
+#  install(EXPORT libpng DESTINATION lib/libpng FILE lib${PNG_LIB_NAME}.cmake)
+#endif()
 
 # what's with libpng-manual.txt and all the extra files?
 
