@@ -54,6 +54,8 @@ if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../zlib/CMakeLists.txt)
   set(ZLIB_SHARED OFF CACHE BOOL "Build zlib shared library" FORCE)
   set(ZLIB_EXAMPLE OFF CACHE BOOL "Build zlib example" FORCE)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../zlib ${CMAKE_CURRENT_BINARY_DIR}/zlib)
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/../zlib/zlib.h"
+                 "${CMAKE_CURRENT_BINARY_DIR}/zlib/zlib.h" COPYONLY)
   set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/zlib)
   set(ZLIB_LIBRARY zlibstatic)
 else ()
